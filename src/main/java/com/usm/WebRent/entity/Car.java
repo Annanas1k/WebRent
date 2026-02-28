@@ -1,20 +1,24 @@
 package com.usm.WebRent.entity;
 
+import com.usm.WebRent.entity.enums.CarCategory;
+import com.usm.WebRent.entity.enums.CarFuelType;
+import com.usm.WebRent.entity.enums.CarStatus;
+import com.usm.WebRent.entity.enums.CarTransmision;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Car {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String brand;
@@ -23,12 +27,17 @@ public class Car {
 
     @Column(unique = true, nullable = false)
     private String licensePlate;
+    @Enumerated(EnumType.STRING)
+    private CarCategory category;
 
-    private String category;
-    private String transmission;
+    @Enumerated(EnumType.STRING)
+    private CarTransmision transmission;
     private Double engineVolume;
-    private String fuelType;
+
+    @Enumerated(EnumType.STRING)
+    private CarFuelType fuelType;
     private Double pricePerDay;
+
     @Enumerated(EnumType.STRING)
     private CarStatus status;
     private String imageUrl;
@@ -41,23 +50,4 @@ public class Car {
     @Column(length = 1000)
     private String features;
 
-    public Car(String brand, String model, Integer year, String licensePlate,
-               String category, String transmission, Double engineVolume,
-               String fuelType, Double pricePerDay, CarStatus status,
-               String imageUrl,  String features) {
-
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.licensePlate = licensePlate;
-        this.category = category;
-        this.transmission = transmission;
-        this.engineVolume = engineVolume;
-        this.fuelType = fuelType;
-        this.pricePerDay = pricePerDay;
-        this.status = status;
-        this.imageUrl = imageUrl;
-//        this.galleryImageUrls = galleryImageUrls;
-        this.features = features;
-    }
 }

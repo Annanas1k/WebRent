@@ -7,6 +7,4 @@ public class WebRentApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebRentApplication.class, args);
-	}
-//corectare comentarii
-}
+	}}

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,21 +13,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String address;
     private String city;
     private String phone;
-    private String workingHouse;
+    private String workingHours;
 
-    public Location(Long id, String address, String city, String phone, String workingHouse) {
-        this.id = id;
-        this.address = address;
-        this.city = city;
-        this.phone = phone;
-        this.workingHouse = workingHouse;
-    }
 }

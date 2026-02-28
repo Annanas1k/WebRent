@@ -1,9 +1,8 @@
 package com.usm.WebRent.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.usm.WebRent.entity.enums.ReviewRating;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,24 +13,23 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "reviews")
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-    private Long carId;
-    private Integer rating;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;
+
+    @Enumerated(EnumType.STRING)
+    private ReviewRating rating;
     private String comment;
     private LocalDateTime createdAt;
-
-    public Review(Long id, Long userId, Long carId, Integer rating, String comment, LocalDateTime createdAt) {
-        this.id = id;
-        this.userId = userId;
-        this.carId = carId;
-        this.rating = rating;
-        this.comment = comment;
-        this.createdAt = createdAt;
-    }
-
 }

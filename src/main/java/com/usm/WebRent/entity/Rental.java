@@ -1,9 +1,8 @@
 package com.usm.WebRent.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.usm.WebRent.entity.enums.RentalStatus;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,30 +14,31 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "rentals")
 public class Rental {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-    private Long carId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;
+
     private LocalDate startDate;
     private LocalDate endDate;
     private Double totalPrice;
+
+    @Enumerated(EnumType.STRING)
     private RentalStatus status;
-    private Long pickupLocationId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pickup_location_id")
+    private Location pickupLocation; 
+
     private LocalDateTime createdAt;
-
-    public Rental(Long id, Long userId, Long carId, LocalDate startDate, LocalDate endDate, Double totalPrice, RentalStatus status, Long pickupLocationId, LocalDateTime createdAt) {
-        this.id = id;
-        this.userId = userId;
-        this.carId = carId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.pickupLocationId = pickupLocationId;
-        this.createdAt = createdAt;
-    }
-
 }
