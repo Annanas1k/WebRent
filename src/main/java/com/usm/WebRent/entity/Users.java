@@ -19,6 +19,8 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private UserStatus status;
+
     private String firstName;
     private String lastName;
     private String email;
@@ -27,8 +29,9 @@ public class Users {
     private String driverLicenseNumber;
     private LocalDateTime createdAt;
 
-    public Users(Long id, String firstName, String lastName, String email, String phone, String password, String driverLicenseNumber, LocalDateTime createdAt) {
+    public Users(Long id, UserStatus status, String firstName, String lastName, String email, String phone, String password, String driverLicenseNumber, LocalDateTime createdAt) {
         this.id = id;
+        this.status = status;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

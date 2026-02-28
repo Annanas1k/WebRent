@@ -41,7 +41,4 @@ public class Rental {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
-        return id;
-    }
 }
