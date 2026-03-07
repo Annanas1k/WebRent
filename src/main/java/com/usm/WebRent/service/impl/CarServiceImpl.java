@@ -14,13 +14,19 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
 
     @Override
-    public Car save(Car car) {return carRepository.save(car);}
+    public Car save(Car car) {
+        return carRepository.save(car);
+    }
 
     @Override
-    public List<Car> findAll() {return carRepository.findAll();}
+    public List<Car> findAll() {
+        return carRepository.findAll();
+    }
 
     @Override
-    public Car findById(Long id) {return carRepository.findById(id).orElseThrow(()-> new RuntimeException("Car with id:" + id + "doesn't exists"));}
+    public Car findById(Long id) {
+        return carRepository.findById(id).orElseThrow(()-> new RuntimeException("Car with id:" + id + "doesn't exist"));
+    }
 
     @Override
     public Car update(Long id, Car carDetails) {
@@ -40,14 +46,10 @@ public class CarServiceImpl implements CarService {
         car.setFeatures(carDetails.getFeatures());
 
         return carRepository.save(car);
-
-
     }
 
     @Override
     public void deleteById(Long id) {
         carRepository.deleteById(id);
     }
-
-
 }
