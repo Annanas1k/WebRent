@@ -15,10 +15,6 @@ public class HomeController {
         return "index";
     }
 
-//    @GetMapping("/cars")
-//    public String test(){
-//        return "test_cars_index";
-//    }
 
 
 }

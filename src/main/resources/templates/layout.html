@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="layout">
     <meta charset="UTF-8">
     <title>WebRent System</title>
@@ -100,17 +100,33 @@
             </div>
 
             <div class="d-flex gap-4">
-                <a href="#" class="icon-action"><i class="fa-regular fa-user"></i>Login</a>
-                <a href="#" class="icon-action"><i class="fa-solid fa-shuffle"></i>Compare</a>
-                <a href="#" class="icon-action"><i class="fa-regular fa-heart"></i>Favourites</a>
-                <a href="#" class="icon-action"><i class="fa-solid fa-cart-shopping"></i>Cart</a>
+                <div sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}" class="icon-action">
+                        <i class="fa-regular fa-user"></i> Login
+                    </a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/profile}" class="icon-action">
+                        <i class="fa-regular fa-user"></i>
+                        Hello, <span th:text="${#authentication.name}">User</span>
+                    </a>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}" class="icon-action">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+
+                </div>
+                <a th:href="@{/compare}" class="icon-action">
+                    <i class="fa-solid fa-shuffle"></i> Compare
+                </a>
             </div>
         </div>
     </div>
 
     <nav class="nav-main">
         <div class="container d-flex">
-            <a class="nav-link active" href="/cars">Main</a>
+            <a class="nav-link active" th:href="@{/cars}">Main</a>
             <a class="nav-link" href="#">Cars <i class="fa-solid fa-chevron-down small"></i></a>
             <a class="nav-link" href="#">Detailing</a>
             <a class="nav-link" href="#">Car service</a>

@@ -10,4 +10,6 @@ public interface UsersService {
     Users findById(Long id);
     Users update(Long id, Users users);
     void deleteById(Long id);
+
+    Users findByEmail(String email);
 }

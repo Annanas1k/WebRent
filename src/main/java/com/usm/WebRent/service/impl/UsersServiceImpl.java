@@ -51,4 +51,12 @@ public class UsersServiceImpl implements UsersService {
     public void deleteById(Long id) {
         usersRepository.deleteById(id);
     }
+
+
+
+    @Override
+    public Users findByEmail(String email){
+        return usersRepository.findByEmail(email).orElse(null);
+    }
+
 }
