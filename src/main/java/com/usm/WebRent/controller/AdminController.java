@@ -137,7 +137,7 @@ public class AdminController {
 
     @GetMapping("/locations")
     public String listLocations(Model model){
-        model.addAttribute("cars", locationService.findAll());
+        model.addAttribute("locations", locationService.findAll());
         return "admin/locations";
     }
 
@@ -149,7 +149,7 @@ public class AdminController {
 
     @GetMapping("/locations/new")
     public String newLocationForm(Model model) {
-        model.addAttribute("location", new Location());
+        model.addAttribute("locations", new Location());
         return "admin/location-form";
     }
 
@@ -179,6 +179,24 @@ public class AdminController {
         if(rental.getId() == null) {
             rental.setCreatedAt(java.time.LocalDateTime.now());
         }
+
+        if (rental.getCar() != null && rental.getCar().getId() != null) {
+            Car fullCar = carService.findById(rental.getCar().getId());
+            rental.setCar(fullCar); // Atasăm obiectul complet
+
+            // 3. Calculăm prețul total automat
+            if (rental.getStartDate() != null && rental.getEndDate() != null) {
+                long days = java.time.temporal.ChronoUnit.DAYS.between(
+                        rental.getStartDate(),
+                        rental.getEndDate()
+                );
+
+                if (days <= 0) days = 1; // Minim o zi
+
+                double calculatedPrice = days * fullCar.getPricePerDay();
+                rental.setTotalPrice(calculatedPrice);
+            }
+        }
         rentalService.save(rental);
         return "redirect:/admin/rentals";
     }
@@ -186,12 +204,20 @@ public class AdminController {
     @GetMapping("/rentals/new")
     public String newRentalForm(Model model) {
         model.addAttribute("rental", new Rental());
+
+        model.addAttribute("usersList", usersService.findAll());
+        model.addAttribute("carsList", carService.findAll());
+        model.addAttribute("locationsList", locationService.findAll());
         return "admin/rental-form";
     }
 
     @GetMapping("/rentals/edit/{id}")
     public String editRental(@PathVariable Long id, Model model) {
         model.addAttribute("rental", rentalService.findById(id));
+
+        model.addAttribute("usersList", usersService.findAll());
+        model.addAttribute("carsList", carService.findAll());
+        model.addAttribute("locationsList", locationService.findAll());
         return "admin/rental-form";
     }
 

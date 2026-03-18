@@ -25,6 +25,7 @@
                 <th>Total Price</th>
                 <th>Status</th>
                 <th>Pickup Location</th>
+                <th>Created At</th>
                 <th class="text-end">Actions</th>
             </tr>
             </thead>
@@ -35,11 +36,12 @@
                 <td>
                     <small th:text="${rental.startDate} + ' to ' + ${rental.endDate}"></small>
                 </td>
-                <td th:text="${rental.totalPrice + ' MDL'}" class="fw-bold text-success">...</td>
+                <td th:text="${rental.totalPrice + ' $'}" class="fw-bold text-success">...</td>
                 <td>
                     <span class="badge bg-light text-dark border" th:text="${rental.status}">...</span>
                 </td>
                 <td th:text="${rental.pickupLocation.city}">...</td>
+                <td th:text="${rental.createdAt}" >...</td>
                 <td class="text-end">
                     <a th:href="@{/admin/rentals/edit/{id}(id=${rental.id})}" class="btn btn-sm btn-outline-primary me-2">
                         <i class="bi bi-pencil"></i> Edit
