@@ -9,6 +9,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -110,7 +117,37 @@ public class AdminController {
     }
 
     @PostMapping("/cars/save")
-    public String saveCar(@ModelAttribute Car car) {
+    public String saveCar(@ModelAttribute("car") Car car,
+                          @RequestParam(value = "imageFile", required = false)MultipartFile imageFile) throws IOException {
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String uploadDir = "src/main/resources/static/media/cars/";
+
+            Path dirPath = Paths.get(uploadDir);
+            Files.createDirectories(dirPath);
+
+            String originalFilename = imageFile.getOriginalFilename();
+            String extension = (originalFilename != null && originalFilename.contains("."))
+                    ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                    : ".jpg";
+
+            String fileName = UUID.randomUUID() + extension;
+
+            Files.write(dirPath.resolve(fileName), imageFile.getBytes());
+
+            car.setImageUrl("/media/cars/" + fileName);
+        }
+
+        if (imageFile == null || imageFile.isEmpty()) {
+            if (car.getId() != null) {
+                Car existing = carService.findById(car.getId());
+                car.setImageUrl(existing.getImageUrl());
+            }
+        }
+
+
+
+
         carService.save(car);
         return "redirect:/admin/cars";
     }
@@ -149,7 +186,7 @@ public class AdminController {
 
     @GetMapping("/locations/new")
     public String newLocationForm(Model model) {
-        model.addAttribute("locations", new Location());
+        model.addAttribute("location", new Location());
         return "admin/location-form";
     }
 
