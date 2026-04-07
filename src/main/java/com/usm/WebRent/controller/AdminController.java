@@ -185,7 +185,6 @@ public class AdminController {
     @GetMapping("/rentals/new")
     public String newRentalForm(Model model) {
         model.addAttribute("rental", new Rental());
-
         model.addAttribute("usersList", usersService.findAll());
         model.addAttribute("carsList", carService.findAll());
         model.addAttribute("locationsList", locationService.findAll());
