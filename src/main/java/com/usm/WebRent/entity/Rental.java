@@ -46,3 +46,4 @@ public class Rental {
 
     private LocalDateTime createdAt;
 }
+
