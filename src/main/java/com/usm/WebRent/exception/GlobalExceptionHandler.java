@@ -53,6 +53,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("A intervenit o eroare neprevăzută: " + ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleJsonError(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+        return new ResponseEntity<>("Formatul datelor este invalid sau nota este în afara limitelor permise!", HttpStatus.BAD_REQUEST);
+    }
+
+
 }
 
 
